@@ -53,7 +53,6 @@ public class SpawnerMenuFormUI {
         // Directly set button text with Bedrock-compatible colors
         String lootButtonText = "Open Storage";
         String infoButtonText = "Open Stack Menu";
-        String expButtonText = "Collect Experience";
 
         // Create a simple form with buttons for each action
         SimpleForm form = SimpleForm.builder()
@@ -62,7 +61,6 @@ public class SpawnerMenuFormUI {
                 // Add buttons with hardcoded text
                 .button(lootButtonText, FormImage.Type.URL, "https://img.icons8.com/?size=100&id=e78DnJp8bhmX&format=png&color=000000")
                 .button(infoButtonText, FormImage.Type.URL, "https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/cf/Spawner_with_fire.png/revision/latest?cb=20190925003048")
-                .button(expButtonText, FormImage.Type.URL, "https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/10/Bottle_o%27_Enchanting.gif/revision/latest?cb=20200428012753")
                 // Add closed or invalid response handler
                 .closedOrInvalidResultHandler(() -> {
                     // Do nothing when form is closed without selecting
@@ -81,9 +79,6 @@ public class SpawnerMenuFormUI {
                                 break;
                             case 1: // Spawner Info
                                 handleSpawnerInfo(player, spawner);
-                                break;
-                            case 2: // Experience
-                                handleExpCollection(player, spawner);
                                 break;
                         }
                     });
@@ -167,17 +162,6 @@ public class SpawnerMenuFormUI {
         }
 
         plugin.getSpawnerStackerUI().openStackerGui(player, spawner);
-    }
-
-    /**
-     * Handles the experience collection button click
-     *
-     * @param player The player clicking the button
-     * @param spawner The spawner data
-     */
-    private void handleExpCollection(Player player, SpawnerData spawner) {
-        // This will execute the same logic as your handleExpBottleClick method
-        plugin.getSpawnerMenuAction().handleExpBottleClick(player, spawner, false);
     }
 
     /**

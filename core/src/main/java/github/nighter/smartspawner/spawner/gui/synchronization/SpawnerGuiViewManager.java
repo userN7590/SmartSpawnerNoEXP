@@ -39,13 +39,11 @@ public class SpawnerGuiViewManager implements Listener {
     // GUI slot constants
     private static final int CHEST_SLOT = 11;
     private static final int SPAWNER_INFO_SLOT = 13;
-    private static final int EXP_SLOT = 15;
 
-    // Update flags - using bit flags for efficient state tracking
+    // Update flags for different GUI elements
     private static final int UPDATE_CHEST = 1;
     private static final int UPDATE_INFO = 2;
-    private static final int UPDATE_EXP = 4;
-    private static final int UPDATE_ALL = UPDATE_CHEST | UPDATE_INFO | UPDATE_EXP;
+    private static final int UPDATE_ALL = UPDATE_CHEST | UPDATE_INFO;
 
     private final SmartSpawner plugin;
     private final LanguageManager languageManager;
@@ -343,11 +341,6 @@ public class SpawnerGuiViewManager implements Listener {
 
         if ((flags & UPDATE_INFO) != 0) {
             updateSpawnerInfoItem(inventory, spawner, player);
-            needsUpdate = true;
-        }
-
-        if ((flags & UPDATE_EXP) != 0) {
-            updateExpItem(inventory, spawner);
             needsUpdate = true;
         }
 
@@ -704,20 +697,6 @@ public class SpawnerGuiViewManager implements Listener {
         // If the new item is different from current item, update it
         if (!ItemUpdater.areItemsEqual(currentChestItem, newChestItem)) {
             inventory.setItem(CHEST_SLOT, newChestItem);
-        }
-    }
-
-    private void updateExpItem(Inventory inventory, SpawnerData spawner) {
-        // Get the exp item from the inventory
-        ItemStack currentExpItem = inventory.getItem(EXP_SLOT);
-        if (currentExpItem == null || !currentExpItem.hasItemMeta()) return;
-
-        // Create a freshly generated exp item using the method from SpawnerMenuUI
-        ItemStack newExpItem = spawnerMenuUI.createExpItem(spawner);
-
-        // If the new item is different from current item, update it
-        if (!ItemUpdater.areItemsEqual(currentExpItem, newExpItem)) {
-            inventory.setItem(EXP_SLOT, newExpItem);
         }
     }
 

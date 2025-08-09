@@ -22,7 +22,6 @@ public class SpawnerMenuUI {
     private static final int INVENTORY_SIZE = 27;
     private static final int CHEST_SLOT = 11;
     private static final int SPAWNER_INFO_SLOT = 13;
-    private static final int EXP_SLOT = 15;
     private static final int TICKS_PER_SECOND = 20;
     private static final Map<String, String> EMPTY_PLACEHOLDERS = Collections.emptyMap();
 
@@ -53,7 +52,6 @@ public class SpawnerMenuUI {
         ItemStack[] items = new ItemStack[INVENTORY_SIZE];
         items[CHEST_SLOT] = createLootStorageItem(spawner);
         items[SPAWNER_INFO_SLOT] = createSpawnerInfoItem(player, spawner);
-        items[EXP_SLOT] = createExpItem(spawner);
 
         // Set all items at once instead of one by one
         for (int i = 0; i < items.length; i++) {
@@ -312,51 +310,6 @@ public class SpawnerMenuUI {
         plugin.getItemCache().put(cacheKey, spawnerItem.clone());
 
         return spawnerItem;
-    }
-
-    public ItemStack createExpItem(SpawnerData spawner) {
-        // Get important data upfront
-        long currentExp = spawner.getSpawnerExp();
-        long maxExp = spawner.getMaxStoredExp();
-        int percentExp = calculatePercentage(currentExp, maxExp);
-
-        // Create cache key for this specific spawner's exp state
-        String cacheKey = spawner.getSpawnerId() + "|exp|" + currentExp + "|" + maxExp;
-
-        // Check if we have a cached item for this exact exp state
-        ItemStack cachedItem = plugin.getItemCache().getIfPresent(cacheKey);
-        if (cachedItem != null) {
-            return cachedItem.clone();
-        }
-
-        // Not in cache, create the ItemStack
-        ItemStack expItem = new ItemStack(Material.EXPERIENCE_BOTTLE);
-        ItemMeta expMeta = expItem.getItemMeta();
-        if (expMeta == null) return expItem;
-
-        // Format numbers once for display
-        String formattedExp = languageManager.formatNumber(currentExp);
-        String formattedMaxExp = languageManager.formatNumber(maxExp);
-
-        // Prepare all placeholders
-        Map<String, String> placeholders = new HashMap<>(5); // Preallocate with expected capacity
-        placeholders.put("current_exp", formattedExp);
-        placeholders.put("raw_current_exp", String.valueOf(currentExp));
-        placeholders.put("max_exp", formattedMaxExp);
-        placeholders.put("percent_exp", String.valueOf(percentExp));
-        placeholders.put("u_max_exp", String.valueOf(maxExp));
-
-        // Set name and lore
-        expMeta.setDisplayName(languageManager.getGuiItemName("exp_info_item.name", placeholders));
-        List<String> loreExp = languageManager.getGuiItemLoreAsList("exp_info_item.lore", placeholders);
-        expMeta.setLore(loreExp);
-
-        expItem.setItemMeta(expMeta);
-
-        // Cache the result for future use
-        plugin.getItemCache().put(cacheKey, expItem.clone());
-
-        return expItem;
     }
 
     private int calculatePercentage(long current, long maximum) {

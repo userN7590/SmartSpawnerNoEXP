@@ -99,8 +99,6 @@ public class SpawnerMenuAction implements Listener {
             handleChestClick(player, spawner);
         } else if (SPAWNER_INFO_MATERIALS.contains(itemType)) {
             handleSpawnerInfoClick(player, spawner, event.getClick());
-        } else if (itemType == Material.EXPERIENCE_BOTTLE) {
-            handleExpBottleClick(player, spawner, false);
         }
     }
 
