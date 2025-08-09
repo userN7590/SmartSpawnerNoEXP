@@ -20,8 +20,8 @@ import java.util.*;
 
 public class SpawnerMenuUI {
     private static final int INVENTORY_SIZE = 27;
-    private static final int CHEST_SLOT = 11;
-    private static final int SPAWNER_INFO_SLOT = 13;
+    private static final int CHEST_SLOT = 12;
+    private static final int SPAWNER_INFO_SLOT = 14;
     private static final int TICKS_PER_SECOND = 20;
     private static final Map<String, String> EMPTY_PLACEHOLDERS = Collections.emptyMap();
 
